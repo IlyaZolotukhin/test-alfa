@@ -51,7 +51,7 @@ const Card = ({id, image, title, description, rating, liked, category, onToggleL
                     </ButtonBox>
                 </ImageContainer>
                 <Content>
-                    <Title>{title.length > 50 ? `${title.substring(0, 50)}... ` : title}</Title>
+                    <Title>{title.length > 20 ? `${title.substring(0, 50)}... ` : title}</Title>
                     <Paragraph>
                         {description.length > 100 ? `${description.substring(0, 100)}... ` : description}
                     </Paragraph>
@@ -117,7 +117,7 @@ const ButtonBox = styled.div`
     bottom: 30px;
     right: 10px;
     display: flex;
-    gap: 12px;`
+    gap: 5px;`
 ;
 
 const StyledButton = styled.button<{ $liked?: boolean }>`
@@ -132,21 +132,5 @@ const StyledButton = styled.button<{ $liked?: boolean }>`
         background-color: #54B854;
         cursor: pointer;
         color: white;
-    }
-;
+    };
 `;
-
-/*
-const DeleteButton = styled.button`
-    display: flex;
-    align-items: center;
-    padding: 2px;
-    border: 1px solid white;
-    border-radius: 10px;
-    &:hover {
-        background-color: #54B854;
-        cursor: pointer;
-        color: white;
-    }
-;
-`;*/

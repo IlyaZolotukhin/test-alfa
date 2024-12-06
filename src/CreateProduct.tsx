@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
 import {Title} from "./Card";
 import {LinkStyled} from "./ ProductDetail";
+import {StyledButton} from "./Products";
 
 
 const CreateProduct = () => {
@@ -78,21 +79,7 @@ export const StyledTextarea = styled.textarea`
     border-radius: 5px;`
 ;
 
-export const StyledButton = styled.button`
-    width: 75%;
-    padding: 10px;
-    background-color: #6E83F9;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #2944ea;
-    }`
-;
-
-export const ButtonBox = styled.div`    
+export const ButtonBox = styled.div`
     display: flex;
     justify-content: space-between;
     gap: 12px;`

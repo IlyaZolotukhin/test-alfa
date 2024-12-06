@@ -13,7 +13,7 @@ export type Product = {
     };
 };
 
-interface AppState {
+export interface AppState {
     products: Product[];
     likedProducts: number[];
 }

@@ -3,9 +3,10 @@ import {useDispatch} from 'react-redux';
 import {updateProduct} from "./actions";
 import {useLocation, useNavigate} from 'react-router-dom';
 import {Paragraph, Title} from "./Card";
-import {ButtonBox, FormContainer, StyledButton, StyledInput, StyledTextarea} from "./CreateProduct";
+import {ButtonBox, FormContainer, StyledInput, StyledTextarea} from "./CreateProduct";
 import {Product} from "./store";
 import {LinkStyled} from "./ ProductDetail";
+import {StyledButton} from "./Products";
 
 const UpdateProduct = () => {
     const location = useLocation();

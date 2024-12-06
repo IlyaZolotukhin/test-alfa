@@ -5,6 +5,7 @@ import Products from './Products';
 import CreateProduct from './CreateProduct';
 import {setProducts} from './actions'; // Create this action
 import ProductDetail from "./ ProductDetail";
+import UpdateProduct from "./UpdateProduct";
 
 function App() {
     const dispatch = useDispatch();
@@ -19,6 +20,7 @@ function App() {
         <Routes>
             <Route element={<Products/>} path={'/'}/>
             <Route element={<CreateProduct/>} path={'/create-product'}/>
+            <Route element={<UpdateProduct/>} path={'/update-product/:id'}/>
             <Route element={<ProductDetail/>} path={'/products/:id'}/>
         </Routes>
     );

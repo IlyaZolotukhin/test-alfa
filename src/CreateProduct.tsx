@@ -53,7 +53,7 @@ const CreateProduct = () => {
 
 export default CreateProduct;
 
-const FormContainer = styled.div`
+export const FormContainer = styled.div`
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;
@@ -62,7 +62,7 @@ const FormContainer = styled.div`
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);`
 ;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -70,7 +70,7 @@ const StyledInput = styled.input`
     border-radius: 5px;`
 ;
 
-const StyledTextarea = styled.textarea`
+export const StyledTextarea = styled.textarea`
     width: 100%;
     padding: 10px;
     margin: 10px 0;
@@ -78,7 +78,7 @@ const StyledTextarea = styled.textarea`
     border-radius: 5px;`
 ;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
     width: 75%;
     padding: 10px;
     background-color: #6E83F9;
@@ -92,7 +92,7 @@ const StyledButton = styled.button`
     }`
 ;
 
-const ButtonBox = styled.div`    
+export const ButtonBox = styled.div`    
     display: flex;
     justify-content: space-between;
     gap: 12px;`

@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Product} from './store';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import activeLike from "./assets/activeLike.png";
 import like from "./assets/like.png";
 import trashCan from "./assets/delete.png";
+import edit from "./assets/edit.png";
 
 interface CardProps extends Product {
     liked: boolean;
@@ -12,7 +13,9 @@ interface CardProps extends Product {
     onDelete: () => void;
 }
 
-const Card = ({id, image, title, description, rating, liked, onToggleLike, onDelete}: CardProps) => {
+const Card = ({id, image, title, description, rating, liked, category, onToggleLike, onDelete}: CardProps) => {
+    const navigate = useNavigate();
+
     const handleLikeClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -25,6 +28,13 @@ const Card = ({id, image, title, description, rating, liked, onToggleLike, onDel
         onDelete();
     };
 
+    const handleUpdateClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        navigate(`/update-product/${id}`,
+            { state: { product: { id, title, rating, description, image, category } } });
+    };
+
     return (
         <>
 
@@ -32,16 +42,19 @@ const Card = ({id, image, title, description, rating, liked, onToggleLike, onDel
                 <ImageContainer>
                     <Image src={image} alt={title}/>
                     <ButtonBox>
-                        <LikeButton onClick={handleLikeClick} $liked={liked}>
+                        <StyledButton onClick={handleUpdateClick}><img src={edit} alt="trashCan"/></StyledButton>
+                        <StyledButton onClick={handleLikeClick} $liked={liked}>
                             {liked ? <img src={activeLike} alt="activeLike"/> :
                                 <img src={like} alt="like"/>} {Math.floor(rating.rate)}
-                        </LikeButton>
-                        <DeleteButton onClick={handleDeleteClick}><img src={trashCan} alt="trashCan"/>️</DeleteButton>
+                        </StyledButton>
+                        <StyledButton onClick={handleDeleteClick}><img src={trashCan} alt="trashCan"/></StyledButton>
                     </ButtonBox>
                 </ImageContainer>
                 <Content>
                     <Title>{title.length > 50 ? `${title.substring(0, 50)}... ` : title}</Title>
-                    <Paragraph>{description.length > 100 ? `${description.substring(0, 100)}... ` : description}</Paragraph>
+                    <Paragraph>
+                        {description.length > 100 ? `${description.substring(0, 100)}... ` : description}
+                    </Paragraph>
                 </Content>
             </CardBox>
     </>
@@ -107,7 +120,7 @@ const ButtonBox = styled.div`
     gap: 12px;`
 ;
 
-const LikeButton = styled.button<{ $liked: boolean }>`
+const StyledButton = styled.button<{ $liked?: boolean }>`
     display: flex;
     align-items: center;
     gap: 12px;
@@ -123,11 +136,12 @@ const LikeButton = styled.button<{ $liked: boolean }>`
 ;
 `;
 
+/*
 const DeleteButton = styled.button`
     display: flex;
     align-items: center;
     padding: 2px;
-    border: 1px solid #3a3939;
+    border: 1px solid white;
     border-radius: 10px;
     &:hover {
         background-color: #54B854;
@@ -135,4 +149,4 @@ const DeleteButton = styled.button`
         color: white;
     }
 ;
-`;
+`;*/

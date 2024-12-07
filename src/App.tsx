@@ -3,7 +3,7 @@ import {Route, Routes} from 'react-router-dom'
 import {useDispatch} from 'react-redux';
 import Products from './Products';
 import CreateProduct from './CreateProduct';
-import {setProducts} from './actions'; // Create this action
+import {setProducts} from './actions';
 import ProductDetail from "./ ProductDetail";
 import UpdateProduct from "./UpdateProduct";
 
@@ -22,6 +22,7 @@ function App() {
             <Route element={<CreateProduct/>} path={'/create-product'}/>
             <Route element={<UpdateProduct/>} path={'/update-product/:id'}/>
             <Route element={<ProductDetail/>} path={'/products/:id'}/>
+            {/*<Route element={<SelectCard/>} path={'/select'}/>*/}
         </Routes>
     );
 }

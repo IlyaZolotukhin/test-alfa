@@ -1,31 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
-import {Product} from './store';
+import {AppState, Product} from './store';
 import {Link, useNavigate} from "react-router-dom";
 import activeLike from "./assets/activeLike.png";
 import like from "./assets/like.png";
 import trashCan from "./assets/delete.png";
 import edit from "./assets/edit.png";
+import star from "./assets/star.png";
+import {addSelectProduct, deleteProduct, removeSelectProduct, setIsSelected, toggleLike} from "./actions";
+import {useDispatch, useSelector} from "react-redux";
 
 interface CardProps extends Product {
     liked: boolean;
-    onToggleLike: () => void;
-    onDelete: () => void;
+    isSelected: boolean
 }
 
-const Card = ({id, image, title, description, rating, liked, category, onToggleLike, onDelete}: CardProps) => {
+const Card = ({id, image, title, description, rating, liked,price, category, isSelected }: CardProps) => {
+    const selectProducts: Product[] = useSelector((state: AppState) => state.selectCards);
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLikeClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        onToggleLike();
+        dispatch(toggleLike(id));// диспатчим чтоб добавить лайк
     };
 
     const handleDeleteClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        onDelete();
+        dispatch(deleteProduct(id));// для удаления продукта
     };
 
     const handleUpdateClick = (e: React.MouseEvent) => {
@@ -34,20 +39,36 @@ const Card = ({id, image, title, description, rating, liked, category, onToggleL
         navigate(`/update-product/${id}`,
             { state: { product: { id, title, rating, description, image, category } } });
     };
+    const handleSelectClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const product = { id, image,price, title, description, rating, liked, category };
+        const existingProduct =selectProducts.find(item => item.id === id)
+        if (existingProduct) {
+            // Если продукт уже есть, удаляем его
+                dispatch(removeSelectProduct(id));
+                dispatch(setIsSelected(false));
+        } else {
+            // Если продукта нет, добавляем его
+            dispatch(addSelectProduct(product));
+            dispatch(setIsSelected(true));
+        }
+
+    };
 
     return (
         <>
-
             <CardBox to={`/products/${id}?title=${title}&url=${image}&description=${description}`}>
                 <ImageContainer>
                     <Image src={image} alt={title}/>
                     <ButtonBox>
-                        <StyledButton onClick={handleUpdateClick}><img src={edit} alt="trashCan"/></StyledButton>
-                        <StyledButton onClick={handleLikeClick} $liked={liked}>
+                        <StyledIconButton $isSelected={isSelected} onClick={handleSelectClick}><img src={star} alt="select"/></StyledIconButton>
+                        <StyledIconButton onClick={handleUpdateClick}><img src={edit} alt="trashCan"/></StyledIconButton>
+                        <StyledIconButton onClick={handleLikeClick} $liked={liked}>
                             {liked ? <img src={activeLike} alt="activeLike"/> :
                                 <img src={like} alt="like"/>} {Math.floor(rating.rate)}
-                        </StyledButton>
-                        <StyledButton onClick={handleDeleteClick}><img src={trashCan} alt="trashCan"/></StyledButton>
+                        </StyledIconButton>
+                        <StyledIconButton onClick={handleDeleteClick}><img src={trashCan} alt="trashCan"/></StyledIconButton>
                     </ButtonBox>
                 </ImageContainer>
                 <Content>
@@ -84,11 +105,11 @@ export const CardBox = styled(Link)`
     border-radius: 15px;
     padding: 10px 10px 22px;
 `
-const ImageContainer = styled.div`
+export const ImageContainer = styled.div`
     position: relative;`
 ;
 
-const Image = styled.img`
+export const Image = styled.img`
     width: 100%;
     height: 170px;
     object-fit: cover;
@@ -120,13 +141,14 @@ const ButtonBox = styled.div`
     gap: 5px;`
 ;
 
-const StyledButton = styled.button<{ $liked?: boolean }>`
+export const StyledIconButton = styled.button<{ $liked?: boolean, $isSelected?: boolean }>`
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 2px;
     border: 1px solid white;
     color: ${props => props.$liked ? '#54B854' : '#6E83F9'};
+    background-color: ${props => props.$isSelected ? '#54B854' : 'none'};
     border-radius: 10px;
     &:hover {
         background-color: #54B854;

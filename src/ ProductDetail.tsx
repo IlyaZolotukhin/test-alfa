@@ -41,6 +41,7 @@ const Img = styled.img`
 export const LinkStyled = styled(Link)`
             display: flex;
             align-items: center;
+            margin: 10px 0;
             padding: 3px 10px;
             text-decoration: none;
             color: white;

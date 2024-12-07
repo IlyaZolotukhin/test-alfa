@@ -16,11 +16,15 @@ export type Product = {
 export interface AppState {
     products: Product[];
     likedProducts: number[];
+    selectCards: Product[];
+    isSelected: number[];
 }
 
 const initialState: AppState = {
     products: [],
     likedProducts: [],
+    selectCards: [],
+    isSelected: []
 };
 
 const reducer = (state = initialState, action: any) => {
@@ -47,8 +51,21 @@ const reducer = (state = initialState, action: any) => {
                 }
                 return product;
             });
+            const updatedSelectProducts = state.selectCards.map(product => {
+                if (product.id === productId) {
+                    const newRate = isLiked ? product.rating.rate - 1 : product.rating.rate + 1;
+                    return {
+                        ...product,
+                        rating: {
+                            ...product.rating,
+                            rate: newRate,
+                        },
+                    };
+                }
+                return product;
+            });
+            return { ...state, likedProducts: updatedLikes, products: updatedProducts, selectCards:  updatedSelectProducts};
 
-            return { ...state, likedProducts: updatedLikes, products: updatedProducts };
         case 'DELETE_PRODUCT':
             return {
                 ...state,
@@ -63,8 +80,23 @@ const reducer = (state = initialState, action: any) => {
                     product.id === action.payload.id ? action.payload : product
                 ),
             };
-        default:
-            return state;
+        case 'ADD_SELECT_PRODUCT':
+            return {
+                ...state,
+                selectCards: [...state.selectCards, action.payload]
+            };
+        case 'REMOVE_SELECT_PRODUCT':
+            return {
+                ...state,
+                selectCards: state.selectCards.filter(item => item.id !== action.payload)
+            };
+        case 'SET_IS_SELECT_PRODUCT':
+            const { productId: prodId } = action.payload;
+            const isSelected = state.likedProducts.includes(prodId);
+            const updatedSelect = isSelected
+                ? state.selectCards.filter(id => id !== prodId)
+                : [...state.selectCards, prodId];
+            return { ...state, isSelected: updatedSelect};
     }
 };
 

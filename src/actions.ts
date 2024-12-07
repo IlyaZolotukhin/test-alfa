@@ -24,3 +24,17 @@ export const updateProduct = (product: Product) => ({
     type: 'UPDATE_PRODUCT',
     payload: product
 });
+
+export const addSelectProduct = (product: Product) => ({
+    type: 'ADD_SELECT_PRODUCT',
+    payload: product
+});
+export const removeSelectProduct = (id: number) => ({
+    type: 'REMOVE_SELECT_PRODUCT',
+    payload: id
+});
+
+export const setIsSelected = (isSelected: boolean) => ({
+    type: 'SET_IS_SELECT_PRODUCT',
+    payload: isSelected
+});

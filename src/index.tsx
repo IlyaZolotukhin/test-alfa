@@ -9,7 +9,7 @@ import {BrowserRouter} from "react-router-dom";
 
 createRoot(document.getElementById('root') as HTMLElement).render(
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter basename={'/test-alfa/'}>
             <App />
         </BrowserRouter>
     </Provider>

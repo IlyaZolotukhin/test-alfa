@@ -7,17 +7,19 @@ import like from "./assets/like.png";
 import trashCan from "./assets/delete.png";
 import edit from "./assets/edit.png";
 import star from "./assets/star.png";
-import {addSelectProduct, deleteProduct, removeSelectProduct, setIsSelected, toggleLike} from "./actions";
+import {addSelectProduct, deleteProduct, removeSelectProduct, toggleLike} from "./actions";
 import {useDispatch, useSelector} from "react-redux";
+import {SelectedProductsType} from "./Products";
 
 interface CardProps extends Product {
     liked: boolean;
-    isSelected: boolean
+    isSelect: boolean
+    setSelectedProducts: (prev: any) => void;
 }
 
-const Card = ({id, image, title, description, rating, liked,price, category, isSelected }: CardProps) => {
+const Card =
+    ({id, image, title, description, rating, liked, price, category, isSelect, setSelectedProducts }: CardProps) => {
     const selectProducts: Product[] = useSelector((state: AppState) => state.selectCards);
-
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -47,13 +49,11 @@ const Card = ({id, image, title, description, rating, liked,price, category, isS
         if (existingProduct) {
             // Если продукт уже есть, удаляем его
                 dispatch(removeSelectProduct(id));
-                dispatch(setIsSelected(false));
         } else {
             // Если продукта нет, добавляем его
             dispatch(addSelectProduct(product));
-            dispatch(setIsSelected(true));
         }
-
+        setSelectedProducts((prev: SelectedProductsType) => ({ ...prev, [id]: !prev[id] }));
     };
 
     return (
@@ -62,7 +62,7 @@ const Card = ({id, image, title, description, rating, liked,price, category, isS
                 <ImageContainer>
                     <Image src={image} alt={title}/>
                     <ButtonBox>
-                        <StyledIconButton $isSelected={isSelected} onClick={handleSelectClick}><img src={star} alt="select"/></StyledIconButton>
+                        <StyledIconButton $isSelect={isSelect} onClick={handleSelectClick}><img src={star} alt="select"/></StyledIconButton>
                         <StyledIconButton onClick={handleUpdateClick}><img src={edit} alt="trashCan"/></StyledIconButton>
                         <StyledIconButton onClick={handleLikeClick} $liked={liked}>
                             {liked ? <img src={activeLike} alt="activeLike"/> :
@@ -141,14 +141,14 @@ const ButtonBox = styled.div`
     gap: 5px;`
 ;
 
-export const StyledIconButton = styled.button<{ $liked?: boolean, $isSelected?: boolean }>`
+export const StyledIconButton = styled.button<{ $liked?: boolean, $isSelect?: boolean }>`
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 2px;
     border: 1px solid white;
     color: ${props => props.$liked ? '#54B854' : '#6E83F9'};
-    background-color: ${props => props.$isSelected ? '#54B854' : 'none'};
+    background-color: ${props => props.$isSelect ? '#54B854' : 'transparent'};
     border-radius: 10px;
     &:hover {
         background-color: #54B854;

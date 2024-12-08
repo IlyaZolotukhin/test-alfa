@@ -22,7 +22,6 @@ function App() {
             <Route element={<CreateProduct/>} path={'/create-product'}/>
             <Route element={<UpdateProduct/>} path={'/update-product/:id'}/>
             <Route element={<ProductDetail/>} path={'/products/:id'}/>
-            {/*<Route element={<SelectCard/>} path={'/select'}/>*/}
         </Routes>
     );
 }

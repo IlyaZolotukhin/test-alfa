@@ -7,12 +7,14 @@ import {ButtonBox} from "./CreateProduct";
 import {useDispatch} from "react-redux";
 import {removeSelectProduct, toggleLike} from "./actions";
 import {Product} from "./store";
+import {SelectedProductsType} from "./Products";
 
 interface SelectCardsProps extends Product {
     liked: boolean;
+    setSelectedProducts: (prev: any) => void;
 }
 
-const SelectCard = ({id, image, title, description, rating, liked }: SelectCardsProps) => {
+const SelectCard = ({id, image, title, description, rating, liked, setSelectedProducts }: SelectCardsProps) => {
     const dispatch = useDispatch();
 
     const handleLikeClick = (e: React.MouseEvent) => {
@@ -25,6 +27,7 @@ const SelectCard = ({id, image, title, description, rating, liked }: SelectCards
         e.preventDefault();
         e.stopPropagation();
         dispatch(removeSelectProduct(id));// для удаления продукта из избранного
+        setSelectedProducts((prev: SelectedProductsType) => ({ ...prev, [id]: !prev[id] }));
     };
 
     return (
@@ -37,7 +40,9 @@ const SelectCard = ({id, image, title, description, rating, liked }: SelectCards
                             {liked ? <img src={activeLike} alt="activeLike"/> :
                                 <img src={like} alt="like"/>} {Math.floor(rating.rate)}
                         </StyledIconButton>
-                        <StyledIconButton onClick={handleDeleteClick}><img src={trashCan} alt="trashCan"/></StyledIconButton>
+                        <StyledIconButton onClick={handleDeleteClick}>
+                            <img src={trashCan} alt="trashCan"/>
+                        </StyledIconButton>
                     </ButtonBox>
                 </ImageContainer>
                 <Content>

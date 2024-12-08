@@ -34,7 +34,3 @@ export const removeSelectProduct = (id: number) => ({
     payload: id
 });
 
-export const setIsSelected = (isSelected: boolean) => ({
-    type: 'SET_IS_SELECT_PRODUCT',
-    payload: isSelected
-});

@@ -7,6 +7,7 @@ import like from "./assets/like.png";
 import trashCan from "./assets/delete.png";
 import edit from "./assets/edit.png";
 import star from "./assets/star.png";
+import activeStar from "./assets/activeStar.jpg";
 import {addSelectProduct, deleteProduct, removeSelectProduct, toggleLike} from "./actions";
 import {useDispatch, useSelector} from "react-redux";
 import {SelectedProductsType} from "./Products";
@@ -62,7 +63,10 @@ const Card =
                 <ImageContainer>
                     <Image src={image} alt={title}/>
                     <ButtonBox>
-                        <StyledIconButton $isSelect={isSelect} onClick={handleSelectClick}><img src={star} alt="select"/></StyledIconButton>
+                        <StyledIconButton $isSelect={isSelect} onClick={handleSelectClick}>
+                            {isSelect ? <img src={activeStar} alt="activeStar"/> :
+                                <img src={star} alt="select"/>}
+                        </StyledIconButton>
                         <StyledIconButton onClick={handleUpdateClick}><img src={edit} alt="trashCan"/></StyledIconButton>
                         <StyledIconButton onClick={handleLikeClick} $liked={liked}>
                             {liked ? <img src={activeLike} alt="activeLike"/> :
@@ -150,9 +154,15 @@ export const StyledIconButton = styled.button<{ $liked?: boolean, $isSelect?: bo
     color: ${props => props.$liked ? '#54B854' : '#6E83F9'};
     background-color: ${props => props.$isSelect ? '#54B854' : 'transparent'};
     border-radius: 10px;
+    cursor: pointer;
     &:hover {
         background-color: #54B854;
-        cursor: pointer;
         color: white;
     };
+    @media screen and (max-width: 768px) {
+        &:hover {
+            background-color: transparent;
+            color: white;
+        };
+    }
 `;

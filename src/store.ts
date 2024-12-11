@@ -23,6 +23,7 @@ const initialState: AppState = {
     products: [],
     likedProducts: [],
     selectCards: [],
+
 };
 
 const reducer = (state = initialState, action: any) => {

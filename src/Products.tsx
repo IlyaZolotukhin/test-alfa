@@ -7,8 +7,6 @@ import Add from "./assets/add.png";
 import {StyledInput} from "./CreateProduct";
 import SelectCard from "./SelectCard";
 
-export type SelectedProductsType = { [key: number]: boolean };
-
 const Products = () => {
     const products: Product[] = useSelector((state: AppState) => state.products);
     const selectProducts: Product[] = useSelector((state: AppState) => state.selectCards);
@@ -16,8 +14,6 @@ const Products = () => {
     const [searchText, setSearchText] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [open, setOpen] = useState<boolean>(true);
-    const [selectedProducts, setSelectedProducts] =
-        useState<SelectedProductsType>({});
     const perPage = 4; // Количество продуктов на странице
 
     //открываем все или избранные карточки
@@ -71,15 +67,12 @@ const Products = () => {
                             key={product.id}
                             {...product}
                             liked={likedProducts.includes(product.id)}
-                            isSelect={selectedProducts[product.id] || false}
-                            setSelectedProducts={setSelectedProducts}
                         />
                     ) : (
                         <SelectCard
                             key={product.id}
                             {...product}
                             liked={likedProducts.includes(product.id)}
-                            setSelectedProducts={setSelectedProducts}
                         />
                     )
                 ))}
@@ -103,19 +96,19 @@ const Products = () => {
 export default Products;
 
 const Box = styled.div`
-    margin: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    `
 ;
 
 const SearchBar = styled.div`
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-`
+            width: 90%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+    `
 ;
 
 const ContentBox = styled.div`
@@ -140,7 +133,7 @@ const Image = styled.img`
 const Paginate = styled.div`
     display: flex;
     gap: 10px;
-margin: 20px;
+    margin: 20px;
 `;
 
 export const StyledButton = styled.button<{ $active?: boolean }>`

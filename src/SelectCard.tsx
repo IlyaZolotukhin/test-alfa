@@ -4,17 +4,16 @@ import activeLike from "./assets/activeLike.png";
 import like from "./assets/like.png";
 import trashCan from "./assets/delete.png";
 import {ButtonBox} from "./CreateProduct";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {removeSelectProduct, toggleLike} from "./actions";
-import {Product} from "./store";
-import {SelectedProductsType} from "./Products";
+import {AppState, Product} from "./store";
 
 interface SelectCardsProps extends Product {
     liked: boolean;
-    setSelectedProducts: (prev: any) => void;
 }
 
-const SelectCard = ({id, image, title, description, rating, liked, setSelectedProducts }: SelectCardsProps) => {
+const SelectCard = ({id, image, title, description, liked}: SelectCardsProps) => {
+    const products: Product[] = useSelector((state: AppState) => state.products);
     const dispatch = useDispatch();
 
     const handleLikeClick = (e: React.MouseEvent) => {
@@ -27,7 +26,6 @@ const SelectCard = ({id, image, title, description, rating, liked, setSelectedPr
         e.preventDefault();
         e.stopPropagation();
         dispatch(removeSelectProduct(id));// для удаления продукта из избранного
-        setSelectedProducts((prev: SelectedProductsType) => ({ ...prev, [id]: !prev[id] }));
     };
 
     return (
@@ -38,7 +36,8 @@ const SelectCard = ({id, image, title, description, rating, liked, setSelectedPr
                     <ButtonBox>
                         <StyledIconButton onClick={handleLikeClick} $liked={liked}>
                             {liked ? <img src={activeLike} alt="activeLike"/> :
-                                <img src={like} alt="like"/>} {Math.floor(rating.rate)}
+                                <img src={like} alt="like"/>}
+                            {products.map(p => p.id === id ? Math.floor(p.rating.rate) : '')}
                         </StyledIconButton>
                         <StyledIconButton onClick={handleDeleteClick}>
                             <img src={trashCan} alt="trashCan"/>
